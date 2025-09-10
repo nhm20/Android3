@@ -16,33 +16,33 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var gridView: GridView
+    private lateinit var recyclerView: RecyclerView
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        gridView = findViewById(R.id.gridView)
+        recyclerView = findViewById(R.id.recyclerView)
 
         val items = listOf(
-            GridItem("Apple", R.drawable.ic_launcher_background),
-            GridItem("Banana", R.drawable.ic_launcher_background),
-            GridItem("Orange", R.drawable.ic_launcher_background),
-            GridItem("Mango", R.drawable.ic_launcher_background),
-            GridItem("Grapes", R.drawable.ic_launcher_background),
-            GridItem("Pineapple", R.drawable.ic_launcher_background)
+            MyItem("Apple", R.drawable.ic_launcher_foreground),
+            MyItem("Banana", R.drawable.ic_launcher_foreground),
+            MyItem("Orange", R.drawable.ic_launcher_foreground),
+            MyItem("Mango", R.drawable.ic_launcher_foreground),
+            MyItem("Grapes", R.drawable.ic_launcher_foreground)
         )
 
-        val adapter = GridAdapter(this, items)
-        gridView.adapter = adapter
+        recyclerView.layoutManager = LinearLayoutManager(this)
 
-        gridView.setOnItemClickListener { _, _, position, _ ->
-            val item = items[position]
+        val adapter = MyAdapter(items) { item ->
             Toast.makeText(this, "Clicked: ${item.name}", Toast.LENGTH_SHORT).show()
         }
+        recyclerView.adapter = adapter
     }
 }

@@ -1,6 +1,7 @@
 package com.example.android3
 
-data class GridItem(
+
+data class MyItem(
     val name: String,
     val imageResId: Int
 )
