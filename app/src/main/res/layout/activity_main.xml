@@ -3,24 +3,39 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:gravity="center"
-    tools:context=".MainActivity"
-    android:layout_marginTop="30dp"
-    android:padding="20dp">
-    <TextView
-        android:id="@+id/txtView"
+    android:orientation="vertical">
+
+    <EditText
+        android:id="@+id/et1"
         android:layout_width="match_parent"
-        android:textAlignment="center"
-        android:textSize="25dp"
         android:layout_height="wrap_content"
-        android:text="Result will appear here"
-        android:layout_marginBottom="20dp"
-        />
+        android:layout_margin="5dp"
+        android:layout_marginTop="5dp"
+        android:hint="Title" />
+
+    <EditText
+        android:id="@+id/et2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:hint="Description" />
+
+    <ImageView
+        android:id="@+id/im2"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:src="@mipmap/ic_launcher" />
+
     <Button
-        android:id="@+id/btn"
-        android:layout_width="match_parent"
+        android:id="@+id/add"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="25dp"
-        android:text="Start Coroutine"/>
+        android:backgroundTint="#2196F3"
+        android:text="Add Me..!" />
+
+    <ListView
+        android:id="@+id/listView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 </LinearLayout>
