@@ -1,49 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:padding="24dp"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MainActivity">
 
-    <Button
-        android:id="@+id/btnStartStartedService"
-        android:layout_width="match_parent"
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Start Started Service" />
+        android:id="@+id/fab"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="16dp"
+        android:contentDescription="Add"
+        android:backgroundTint="#0955D9"
+        app:srcCompat="@drawable/outline_add_24"
+        app:tint="@color/white" />
 
-    <Button
-        android:id="@+id/btnStopStartedService"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Stop Started Service"
-        android:layout_marginTop="8dp"/>
-
-    <Button
-        android:id="@+id/btnBindBoundService"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Bind Bound Service"
-        android:layout_marginTop="8dp"/>
-
-    <Button
-        android:id="@+id/btnUnbindBoundService"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Unbind Bound Service"
-        android:layout_marginTop="8dp"/>
-
-    <Button
-        android:id="@+id/btnStartForegroundService"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Start Foreground Service"
-        android:layout_marginTop="8dp"/>
-
-    <Button
-        android:id="@+id/btnStopForegroundService"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Stop Foreground Service"
-        android:layout_marginTop="8dp"/>
-
-</LinearLayout>
+</RelativeLayout>
