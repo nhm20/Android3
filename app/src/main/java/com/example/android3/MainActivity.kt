@@ -1,52 +1,37 @@
 package com.example.android3
 
 import android.os.Bundle
-import android.widget.Button
-import android.widget.EditText
-import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.android3.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
-
-    private lateinit var dbHelper: UserDatabaseHelper
+    private lateinit var binding: ActivityMainBinding
+    private val viewModel: NoteViewModel by viewModels()
+    private val adapter = NoteAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        dbHelper = UserDatabaseHelper(this)
-        val etUsername = findViewById<EditText>(R.id.etUsername)
-        val etPassword = findViewById<EditText>(R.id.etPassword)
-        val btnSignup = findViewById<Button>(R.id.btnSignup)
-        val btnLogin = findViewById<Button>(R.id.btnLogin)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        btnSignup.setOnClickListener {
-            val username = etUsername.text.toString().trim()
-            val password = etPassword.text.toString().trim()
+        binding.recyclerView.layoutManager = LinearLayoutManager(this)
+        binding.recyclerView.adapter = adapter
 
-            if (username.isEmpty() || password.isEmpty()) {
-                Toast.makeText(this, "Please enter all fields", Toast.LENGTH_SHORT).show()
-            } else {
-                val success = dbHelper.addUser(username, password)
-                if (success) {
-                    Toast.makeText(this, "Signup successful!", Toast.LENGTH_SHORT).show()
-                } else {
-                    Toast.makeText(
-                        this,
-                        "Signup failed. Username may already exist.",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-            }
+        // Observe LiveData
+        viewModel.allNotes.observe(this) { notes ->
+            adapter.submitList(notes)
         }
-
-        btnLogin.setOnClickListener {
-            val username = etUsername.text.toString().trim()
-            val password = etPassword.text.toString().trim()
-            val valid = dbHelper.checkUser(username, password)
-            if (valid) {
-                Toast.makeText(this, "Login successful!", Toast.LENGTH_SHORT).show()
-            } else {
-                Toast.makeText(this, "Invalid credentials", Toast.LENGTH_SHORT).show()
+        // Add note
+        binding.btnAdd.setOnClickListener {
+            val title = binding.etTitle.text.toString().trim()
+            val content = binding.etContent.text.toString().trim()
+            if (title.isNotEmpty() || content.isNotEmpty()) {
+                val note = Note(title = title, content = content)
+                viewModel.insert(note)
+                binding.etTitle.text?.clear()
+                binding.etContent.text?.clear()
             }
         }
     }
