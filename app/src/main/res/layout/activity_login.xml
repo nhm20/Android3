@@ -21,17 +21,16 @@
         android:inputType="textPassword"/>
 
     <Button
-        android:id="@+id/btnSignup"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Sign Up"
-        android:layout_marginTop="16dp"/>
-
-    <Button
         android:id="@+id/btnLogin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Login"
-        android:layout_marginTop="8dp"/>
+        android:layout_marginTop="16dp"/>
 
+    <Button
+        android:id="@+id/btnGotoSignup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="No account? Sign Up"
+        android:layout_marginTop="8dp"/>
 </LinearLayout>
