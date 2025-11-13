@@ -1,46 +1,79 @@
 package com.example.android3
 
-import android.annotation.SuppressLint
+import android.content.ComponentName
 import android.content.Intent
-import android.graphics.Bitmap
-import android.net.Uri
+import android.content.ServiceConnection
 import android.os.Bundle
-import android.provider.MediaStore
+import android.os.IBinder
 import android.widget.Button
-import android.widget.EditText
-import android.widget.GridView
-import android.widget.ImageView
-import android.widget.ListView
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var recyclerView: RecyclerView
+    private var boundService: MyBoundService? = null
+    private var isBound = false
+
+    private val connection = object : ServiceConnection {
+        override fun onServiceConnected(name: ComponentName?,
+                                        service: IBinder?) {
+            val binder = service as MyBoundService.LocalBinder
+            boundService = binder.getService()
+            isBound = true
+            Toast.makeText(this@MainActivity,
+                boundService?.getWelcomeMessage(),
+                Toast.LENGTH_SHORT)
+                .show()
+        }
+
+        override fun onServiceDisconnected(name: ComponentName?) {
+            isBound = false
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        val startStartedService = findViewById<Button>(R.id.btnStartStartedService)
+        val stopStartedService = findViewById<Button>(R.id.btnStopStartedService)
+        val bindBoundService = findViewById<Button>(R.id.btnBindBoundService)
+        val unbindBoundService = findViewById<Button>(R.id.btnUnbindBoundService)
+        val startForegroundService = findViewById<Button>(R.id.btnStartForegroundService)
+        val stopForegroundService = findViewById<Button>(R.id.btnStopForegroundService)
 
-        recyclerView = findViewById(R.id.recyclerView)
-
-        val items = listOf(
-            CardItem("Apple", "This is an apple", R.drawable.ic_launcher_foreground),
-            CardItem("Banana", "This is a banana", R.drawable.ic_launcher_foreground),
-            CardItem("Orange", "This is an orange", R.drawable.ic_launcher_foreground)
-        )
-
-        recyclerView.layoutManager = LinearLayoutManager(this)
-
-        val adapter = CardAdapter(items) { item ->
-            Toast.makeText(this, "Clicked: ${item.title}", Toast.LENGTH_SHORT).show()
+        startStartedService.setOnClickListener {
+            startService(Intent(this,
+                MyStartedService::class.java))
         }
 
-        recyclerView.adapter = adapter
+        stopStartedService.setOnClickListener {
+            stopService(Intent(this,
+                MyStartedService::class.java))
+        }
+
+        bindBoundService.setOnClickListener {
+            val intent = Intent(this,
+                MyBoundService::class.java)
+            bindService(intent, connection,
+                BIND_AUTO_CREATE
+            )
+        }
+
+        unbindBoundService.setOnClickListener {
+            if (isBound) {
+                unbindService(connection)
+                isBound = false
+            }
+        }
+
+        startForegroundService.setOnClickListener {
+            startService(Intent(this,
+                MyForegroundService::class.java))
+        }
+
+        stopForegroundService.setOnClickListener {
+            stopService(Intent(this,
+                MyForegroundService::class.java))
+        }
     }
 }
